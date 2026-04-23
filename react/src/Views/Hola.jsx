@@ -1,18 +1,27 @@
 import React from 'react'
-import foto from '../assets/Gatolentes.png'
+import User from '../Componentes/User'
+import Add from '../Componentes/Add'
 
-const Hola = () => {
+const Hola = ({ users, delUser, addUser }) => {
   return (
-    <div>
-      <h2>Hola Mundo</h2>
-      <br></br>
-      <p>Hola este es la tarea de vistas </p>
-      <br></br>
-      <img src={foto} />
-    </div>
+    <>
+    <Add addUser={addUser} />
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Nombre</th>
+          <th>Delete?</th>
+        </tr>
+      </thead>
 
-
-
+      <tbody>
+        {users.map((u) => (
+          <User key={u._id} user={u} delUser={delUser} />
+        ))}
+      </tbody>
+    </table>
+    </>
   )
 }
 

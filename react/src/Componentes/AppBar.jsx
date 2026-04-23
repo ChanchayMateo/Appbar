@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 const pages = [
   { name: 'Login', path: '/' },
   { name: 'Profile', path: '/Profile' },
-  { name: 'Hola', path: '/Hola' }
+  { name: 'Admin', path: '/Hola' }
 ];
 const settings = ['Logout'];
 

@@ -15,7 +15,7 @@ const Login = ({login}) => {
       return
     }
     const  res = await login({username:username, password:password})
-    if (res.isLogin === true){
+    if (res.login === true){
       setUsername("")
       setPassword("")
       navigate("/profile")
@@ -29,7 +29,7 @@ const Login = ({login}) => {
     <form onSubmit={onsubmit}>
       <TextField value = {username} onChange={(e)=>setUsername(e.target.value)}></TextField>
       <TextField value = {password} onChange={(e)=>setPassword(e.target.value)}></TextField>
-      <Button Type= 'submit'> Login </Button>
+      <Button type= 'submit'> Login </Button>
     </form>
   )
 }
