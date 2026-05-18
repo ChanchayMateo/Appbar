@@ -27,12 +27,13 @@ function AppContent({ login, user, users, delUser, addUser}) {
 
 function App() {
   const [isLogin, setIsLogin] = useState(false)
+  const [token, setToken] = useState('')
   const [user, setUser] = useState({})
   const [users, setUsers] = useState([])
   useEffect(() => {
     if (isLogin) {
       const getUsers = async () => {
-        const res = await fetch(API_URL + "/users")
+        const res = await fetch(API_URL + "/users", {headers:{authorization:token}})
         const data = await res.json()
         setUsers(data)
       }
@@ -54,6 +55,7 @@ function App() {
 
       setIsLogin(data.login)
       setUser(data.user)
+      setToken(data.token)
 
       return data
     } catch (error) {
@@ -63,16 +65,14 @@ function App() {
   }
   const delUser = async (id) => {
     setUsers(users.filter((u) => u._id !== id))
-    await fetch(API_URL + "/users/" + id, {
-      method: "DELETE"
-    })
+    await fetch(API_URL + "/users/" + id,{headers: {authorization:token}}, {method: "DELETE" })
     // api elimine
   }
 const addUser = async (newUser) => {
   const res = await fetch(API_URL + "/users", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json", authorization:token
     },
     body: JSON.stringify(newUser)
   })
