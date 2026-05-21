@@ -6,7 +6,7 @@ import Hola from './Views/Hola'
 import Login from './Views/Login'
 import { useEffect, useState } from 'react'
 
-const API_URL = "https://practicarestapi-production.up.railway.app"
+const API_URL = "https://practicarestapi-production.up.railway.app/api"
 
 
 function AppContent({ login, user, users, delUser, addUser}) {
