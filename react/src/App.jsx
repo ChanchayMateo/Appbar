@@ -6,7 +6,8 @@ import Hola from './Views/Hola'
 import Login from './Views/Login'
 import { useEffect, useState } from 'react'
 
-const API_URL = "http://localhost:8000/api" 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/api" 
+
 
 function AppContent({ login, user, users, delUser, addUser}) {
   const location = useLocation()
