@@ -5,8 +5,9 @@ import ResponsiveAppBar from './Componentes/AppBar'
 import Hola from './Views/Hola'
 import Login from './Views/Login'
 import { useEffect, useState } from 'react'
-
-const API_URL = "https://practicarestapi-production.up.railway.app/api"
+import Details from './Componentes/Deatils'
+import useAuth from './hooks/useAuth'
+import useAdmin from './hooks/useAdmin'
 
 
 function AppContent({ login, user, users, delUser, addUser}) {
@@ -27,63 +28,22 @@ function AppContent({ login, user, users, delUser, addUser}) {
 }
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false)
-  const [token, setToken] = useState('')
-  const [user, setUser] = useState({})
-  const [users, setUsers] = useState([])
+  const { isLogin, token, user, login } = useAuth()
+  const { users, getUsers, delUser, addUser } = useAdmin(token)
+  
   useEffect(() => {
     if (isLogin) {
-      const getUsers = async () => {
-        const res = await fetch(API_URL + "/users", {headers:{authorization:token}})
-        const data = await res.json()
-        setUsers(data)
-      }
       getUsers()
     }
   }, [isLogin])
 
-  const login = async (userData) => {
-    try {
-      const res = await fetch(API_URL + "/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(userData)
-      })
-
-      const data = await res.json()
-
-      setIsLogin(data.login)
-      setUser(data.user)
-      setToken(data.token)
-
-      return data
-    } catch (error) {
-      console.error(error)
-      return { login: false }
-    }
-  }
-  const delUser = async (id) => {
-    setUsers(users.filter((u) => u._id !== id))
-    await fetch(API_URL + "/users/" + id,{headers: {authorization:token}}, {method: "DELETE" })
-    // api elimine
-  }
-const addUser = async (newUser) => {
-  const res = await fetch(API_URL + "/users", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json", authorization:token
-    },
-    body: JSON.stringify(newUser)
-  })
-  const data = await res.json()
-  setUsers([...users, data])
-}
 
   return (
     <BrowserRouter>
       <AppContent login={login} user={user} users={users} delUser={delUser} addUser={addUser} />
+      <Routes>
+        <Route path='/users/:username' element={<Details users={users} />} />
+      </Routes>
     </BrowserRouter> 
   )
 }
